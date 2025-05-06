@@ -1,0 +1,1 @@
+<img style="width: 70px;" src="{{ asset('admin/assets/img/avatars/tsg1.png') }}">

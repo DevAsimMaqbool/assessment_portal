@@ -1,0 +1,1 @@
+<img style="width: 70px;" src="<?php echo e(asset('admin/assets/img/avatars/tsg1.png')); ?>"><?php /**PATH /Applications/MAMP/htdocs/AssessmentPortal/resources/views/components/application-logo.blade.php ENDPATH**/ ?>
