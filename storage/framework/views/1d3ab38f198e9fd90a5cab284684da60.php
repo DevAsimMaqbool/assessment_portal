@@ -1,0 +1,1 @@
+<img style="width: 150px;" src="<?php echo e(asset('admin/assets/img/avatars/superior.svg')); ?>"><?php /**PATH /home/ipza8kynww9c/public_html/assessment.digitaldiraction.com/resources/views/components/application-logo.blade.php ENDPATH**/ ?>
