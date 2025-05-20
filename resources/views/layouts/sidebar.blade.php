@@ -17,12 +17,20 @@
 
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
+    
     <li class="menu-item active open">
-      <a href="/dashboard" class="menu-link">
-        <i class="menu-icon icon-base ti tabler-smart-home"></i>
+      @if(auth()->user()->hasRole('admin'))
+      <a href="{{ route('admin.dashboard') }}"  class="menu-link">
+      <i class="menu-icon icon-base ti tabler-smart-home"></i>
         <div data-i18n="Dashboard">Dashboard</div>
-        <!-- <div class="badge text-bg-danger rounded-pill ms-auto">5</div> -->
-      </a>
+        </a>
+      @endif
+      @if(auth()->user()->hasRole('user'))
+      <a href="{{ route('dashboard') }}"  class="menu-link">
+      <i class="menu-icon icon-base ti tabler-smart-home"></i>
+        <div data-i18n="Dashboard">Dashboard</div>
+        </a>
+      @endif
       <!-- <ul class="menu-sub">
         <li class="menu-item active">
           <a href="" class="menu-link">
@@ -50,6 +58,14 @@
         <i class="menu-icon icon-base ti tabler-message-heart"></i>
         <div data-i18n="View Reports">View Reports</div>
       </a>
+    </li>
+    <li class="menu-item">
+    @if(auth()->user()->hasRole('admin'))
+      <a href="{{ route('admin.users.index') }}"  class="menu-link">
+      <i class="menu-icon icon-base ti tabler-users"></i>
+        <div data-i18n="Users">Users</div>
+        </a>
+      @endif
     </li>
     <!-- <li class="menu-item active">
       <a href="javascript:void(0);" class="menu-link menu-toggle">

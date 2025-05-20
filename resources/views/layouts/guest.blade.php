@@ -34,7 +34,7 @@
                   <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mb-6">
-                      <a href="index.html" class="app-brand-link">
+                      <a href="" class="app-brand-link">
                       <x-application-logo class="app-brand-logo demo" />
                       </a>
                     </div>
