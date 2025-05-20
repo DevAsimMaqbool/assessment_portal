@@ -67,6 +67,12 @@
         </a>
       @endif
     </li>
+     <li class="menu-item">
+      <a href="{{ route('complanits.index') }}" class="menu-link">
+        <i class="menu-icon icon-base ti tabler-message-heart"></i>
+        <div data-i18n="View Reports">Complaints</div>
+      </a>
+    </li>
     <!-- <li class="menu-item active">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon icon-base ti tabler-settings"></i>
