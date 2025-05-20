@@ -34,11 +34,7 @@
                   <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mb-6">
-<<<<<<< HEAD
                       <a href="" class="app-brand-link">
-=======
-                      <a href="index.html" class="app-brand-link">
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                       <x-application-logo class="app-brand-logo demo" />
                       </a>
                     </div>

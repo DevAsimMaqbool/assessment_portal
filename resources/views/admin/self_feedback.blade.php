@@ -11,10 +11,6 @@
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-<<<<<<< HEAD
-=======
-        <>
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             <!-- Permission Table -->
             <div class="card">
                 <div class="card-datatable table-responsive">
@@ -22,7 +18,6 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-<<<<<<< HEAD
                                 <th>Virtues</th>
                                 <th>Score</th>
                                 <th>Rank</th>
@@ -80,35 +75,11 @@
                                     8
                                 </p></td>
                             </tr>
-=======
-                                <th>Category</th>
-                                <th>Attempt</th>
-                                <th>Score</th>
-                                <!-- <th>View Attempt Detail</th> -->
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($userScore as $index => $score)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ str_replace('and', '&', $score->category->name) }}</td>
-                                    <td>{{ $score->attempt }}</td>
-                                    <td>{{ $score->average_score }}%</td>
-                                    <!-- <td><a
-                                                                                                                                                                                                                                                href="{{ route('admin.self_feedback.details', ['attempt' => $score->attempt, 'category_id' => $score->category_id]) }}">
-                                                                                                                                                                                                                                                Click here
-                                                                                                                                                                                                                                            </a></td> -->
-                                    <td>{{ $score->created_at }}</td>
-                                </tr>
-                            @endforeach
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--/ Permission Table -->
-<<<<<<< HEAD
             <br>
             <!-- Permission Table -->
             <div class="card">
@@ -211,8 +182,6 @@
     </div>
 @endforeach --}}
 
-=======
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
     </div>
     <!-- / Content -->
 @endsection
@@ -227,10 +196,7 @@
 @push('script')
     <script>
         $(document).ready(function () {
-<<<<<<< HEAD
      
-=======
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             $('#userScoreTable').DataTable({
                 processing: true,
                 paging: true,
@@ -247,21 +213,13 @@
                             {
                                 pageLength: {
                                     menu: [10, 25, 50, 100],
-<<<<<<< HEAD
                                     text: "Attempt 3"
-=======
-                                    text: "Show _MENU_"
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                                 }
                             },
                             {
                                 buttons: [
                                     {
-<<<<<<< HEAD
                                         text: '<i class="icon-base tabler icon-tabler-eye icon-xs me-0 me-sm-2"></i> <span class="d-none d-sm-inline-block">Latest Report</span>',
-=======
-                                        text: '<i class="icon-base tabler icon-tabler-eye icon-xs me-0 me-sm-2"></i> <span class="d-none d-sm-inline-block">View Self Report</span>',
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                                         className: "btn",
                                         action: function () {
                                             window.open('{{ asset('admin/assets/img/pdf/ReportFormat.pdf') }}', '_blank');
@@ -273,7 +231,6 @@
                     }
                 }
             });
-<<<<<<< HEAD
              $('#userScoreTable1').DataTable({
                 processing: true,
                 paging: true,
@@ -297,8 +254,6 @@
                     }
                 }
             });
-=======
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         });
     </script>
 @endpush

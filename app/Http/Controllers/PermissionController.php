@@ -71,7 +71,6 @@ class PermissionController extends Controller
             ->orderBy('category_id', 'asc')  // Order by created_at
             ->pluck('average_score')  // Get the average_score
             ->toArray();
-<<<<<<< HEAD
         //$dataset1 = [90, 100, 85, 90, 90, 90];
         $dataset2 = [80, 90, 75, 80, 80, 80];
         return view('admin.chart', compact('labels', 'dataset1', 'dataset2'));
@@ -95,11 +94,6 @@ class PermissionController extends Controller
         //$dataset1 = [90, 100, 85, 90, 90, 90];
         $dataset2 = [80, 90, 75, 80, 80, 80];
         return view('admin.dashbord', compact('labels', 'dataset1', 'dataset2','averageOfAverages'));
-=======
-
-        $dataset2 = [40, 100, 40, 90, 40, 90];
-        return view('admin.chart', compact('labels', 'dataset1', 'dataset2'));
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
     }
     public function stakeholder_data()
     {

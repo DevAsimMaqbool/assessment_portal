@@ -6,20 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-<<<<<<< HEAD
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
-=======
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-<<<<<<< HEAD
     use HasRoles, HasFactory, Notifiable, SoftDeletes;
-=======
-    use HasFactory, Notifiable;
->>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
 
     /**
      * The attributes that are mass assignable.
