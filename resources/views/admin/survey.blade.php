@@ -13,7 +13,7 @@
   <!-- Permission Table -->
   <div class="card">
     <div class="card-datatable table-responsive">
-      <table class="table border-top" id="complaintTable">
+      <table class="table border-top" id="surveyTable">
         <thead>
           <tr>
             <th>#</th>
@@ -32,7 +32,7 @@
 
   <!-- Modal -->
   <!-- Add Permission Modal -->
-    <div class="modal fade" id="complaintModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="surveyModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-simple">
             <div class="modal-content">
             <div class="modal-body">
@@ -42,31 +42,28 @@
                     <p class="text-body-secondary">Survey you may use and assign to your users.</p>
                 </div>
                 
-                <form id="complaintForm" class="row">
-                    <input type="hidden" id="complaintId">
-                    <div class="col-12 form-control-validation mb-4">
-                        <label class="form-label" for="modalPermissionName">Permission Name</label>
-                        <input type="text" id="permissionName" name="permissionName" required class="form-control" placeholder="Permission Name" autofocus />
-                        <div class="invalid-feedback" id="nameError"></div>
+                <form id="surveyForm" class="row">
+                    <input type="hidden" id="surveyId">
+                    <div class="col-6 form-control-validation mb-4">
+                        <label class="form-label" for="start-date">Start Date</label>
+                        <input type="date" id="start-date" name="start_date" required class="form-control" />
+                        <div class="invalid-feedback" id="start_dateError"></div>
+                    </div>
+                    <div class="col-6 form-control-validation mb-4">
+                       <label class="form-label" for="end-date">End Date</label>
+                        <input type="date" id="end-date" name="end_date" required class="form-control" />
+                        <div class="invalid-feedback" id="end_dateError"></div>
                     </div>
                     <div class="col-12 form-control-validation mb-4">
-                       <label class="form-label" for="complaint-category">Virtue</label>
-                        <select id="complaint-category" class="form-select" name="complaint_category" required>
-                        </select>
-                        <div class="invalid-feedback" id="complaint_categoryError"></div>
+                         <div class="form-check form-switch mb-2">
+                         <input class="form-check-input" type="checkbox" id="status" value="" name="status">
+                         <label class="form-check-label" for="status">Status</label>
+                         </div>
+                          <div class="invalid-feedback" id="statusError"></div>
                     </div>
                     <div class="col-12 form-control-validation mb-4">
-                        <label class="form-label" for="complaint-severity">Severity</label>
-                        <select id="complaint-severity" class="form-select" name="complaint_severity" required>
-                        <option value="severe">Severe</option>
-                        <option value="mild">Mild</option>
-                        <option value="minor">Minor</option>
-                        </select>
-                        <div class="invalid-feedback" id="complaint_severityError"></div>
-                    </div>
-                    <div class="col-12 form-control-validation mb-4">
-                        <input class="form-check-input" type="checkbox" value="" id="complaint-isresokved" name="complaint_isresokved">
-                        <label class="form-check-label" for="complaint-isresokved"> isresolved </label>
+                          <label for="description" class="form-label">Description</label>
+                          <textarea class="form-control" id="description" rows="3" name="description"></textarea>
                     </div>
                     <div class="col-12 text-center demo-vertical-spacing">
                         <button type="submit" class="btn btn-primary me-sm-4 me-1">Save</button>
@@ -93,46 +90,30 @@
 @endpush
 @push('script')
 <script>
-    const modal = new bootstrap.Modal(document.getElementById('complaintModal'));
+    const modal = new bootstrap.Modal(document.getElementById('surveyModal'));
     let isEdit = false;
 
-    function fetchComplaint() {
+    function fetchSurvey() {
         $.ajax({
-            url: "{{ route('survey.index') }}",
+            url: "{{ route('admin.survey.index') }}",
             method: "GET",
             dataType: "json",
             success: function (data) {
                 
-                const complaints = data.complaints;
-                const users = data.users;
-                const categories = data.categories;
-                // Populate user dropdown
-                let userOptions = '<option value="">Select User</option>';
-                users.forEach(user => {
-                    userOptions += `<option value="${user.id}">${user.name}</option>`;
-                });
-                $('#complaint-user').html(userOptions);
-
-                let categoryOptions = '<option value="">Select Category</option>';
-                categories.forEach(category => {
-                    categoryOptions += `<option value="${category.id}">${category.name}</option>`;
-                });
-                $('#complaint-category').html(categoryOptions);
-                const rowData = complaints.map((c, i) => {
-                    const createdAt = new Date(c.created_at);
+                const rowData = data.map((s, i) => {
+                    const createdAt = new Date(s.created_at);
                     const formattedDate = createdAt.toISOString().split('T')[0];
                     return [
                         i + 1,
-                        c.user?.name || 'N/A',
-                        c.category?.name || 'N/A',
-                        c.severity.charAt(0).toUpperCase() + c.severity.slice(1),
-                        c.is_resolved ? 'Yes' : 'No',
+                        s.start_date || 'N/A',
+                        s.end_date || 'N/A',
+                        s.status || 'N/A',
                         formattedDate,
                         `<div class="d-flex align-items-center">
-                            <a class="btn btn-icon btn-text-secondary rounded-pill waves-effect" onclick="editComplaint(${c.id})">
+                            <a class="btn btn-icon btn-text-secondary rounded-pill waves-effect" onclick="editSurvey(${s.id})">
                                 <i class="icon-base ti tabler-edit icon-22px"></i>
                             </a>
-                            <a class="btn btn-icon btn-text-secondary rounded-pill waves-effect" onclick="deleteComplaint(${c.id})">
+                            <a class="btn btn-icon btn-text-secondary rounded-pill waves-effect" onclick="deleteSurvey(${s.id})">
                                 <i class="icon-base ti tabler-trash icon-md"></i>
                             </a>
                         </div>`
@@ -140,8 +121,8 @@
                 });
 
                 // Initialize DataTable only once
-                if (!$.fn.DataTable.isDataTable('#complaintTable')) {
-                    window.complaintTable = $('#complaintTable').DataTable({
+                if (!$.fn.DataTable.isDataTable('#surveyTable')) {
+                    window.surveyTable = $('#surveyTable').DataTable({
                         processing: true,
                         paging: true,
                         searching: true,
@@ -168,10 +149,10 @@
                                     {
                                         buttons: [
                                             {
-                                                text: '<i class="icon-base ti tabler-plus icon-xs me-0 me-sm-2"></i> <span class="d-none d-sm-inline-block">Add Complaint</span>',
+                                                text: '<i class="icon-base ti tabler-plus icon-xs me-0 me-sm-2"></i> <span class="d-none d-sm-inline-block">Add Survey</span>',
                                                 className: "btn",
                                                 action: function () {
-                                                    openAddComplaintModal();
+                                                    openAddSurveyModal();
                                                 }
                                             }
                                         ]
@@ -182,7 +163,7 @@
                     });
                 } else {
                     // If already initialized, just refresh data
-                    window.complaintTable.clear().rows.add(rowData).draw();
+                    window.surveyTable.clear().rows.add(rowData).draw();
                 }
             },
             error: function (xhr) {
@@ -191,42 +172,42 @@
         });
     }
 
-    function openAddComplaintModal() {
+    function openAddSurveyModal() {
         isEdit = false;
-        $('#modalTitle').text('Add Complaints');
-        $('#complaintForm')[0].reset();
-        $('#complaintId').val('');
-        $('#nameError').text('');
+        $('#modalTitle').text('Add Survey');
+        $('#surveyForm')[0].reset();
+        $('#surveyId').val('');
+        $('.invalid-feedback').text('');
         modal.show();
     }
 
-    function editComplaint(id) {
+    function editSurvey(id) {
         isEdit = true;
         $.get(`/admin/survey/${id}/edit`, function (data) {
-            $('#complaintId').val(data.id);
-            $('#complaint-user').val(data.user.id);
-            $('#complaint-category').val(data.category.id);
-            $('#complaint-severity').val(data.severity);
+            $('#surveyId').val(data.id);
+            $('#start-date').val(data.start_date);
+            $('#end-date').val(data.end_date);
+            $('#description').val(data.description);
 
-            $('#complaint-isresokved').prop('checked', data.is_resolved)
-            $('#modalTitle').text('Edit Complaints');
-            $('#nameError').text('');
+            $('#status').prop('checked', data.status === 'active');
+            $('#modalTitle').text('Edit Survey');
+            $('.invalid-feedback').text('');
             modal.show();
         });
     }
 
-    $('#complaintForm').submit(function (e) {
+    $('#surveyForm').submit(function (e) {
         e.preventDefault();
-        const id = $('#complaintId').val();
-        const url = isEdit ? `/complanits/${id}` : "{{ route('complanits.store') }}";
+        const id = $('#surveyId').val();
+        const url = isEdit ? `/admin/survey/${id}` : "{{ route('admin.survey.store') }}";
         const method = isEdit ? 'PUT' : 'POST';
         const formData = {
             _token: "{{ csrf_token() }}",
             _method: method,
-            complaint_user: $('#complaint-user').val(),
-            complaint_category: $('#complaint-category').val(),
-            complaint_severity: $('#complaint-severity').val(),
-            complaint_isresokved: $('#complaint-isresokved').is(':checked') ? 1 : 0
+            start_date: $('#start-date').val(),
+            end_date: $('#end-date').val(),
+            description: $('#description').val(),
+            status: $('#status').is(':checked') ? 'active' : 'closed'
         };
 
         $.ajax({
@@ -234,8 +215,8 @@
             method: method,
             data: formData,
             success: function (res) {
-                $('#complaintForm')[0].reset();
-                $('#complaintId').val('');
+                $('#surveyForm')[0].reset();
+                $('#surveyId').val('');
                 modal.hide();
                 Swal.fire({
                 title: "Good job!",
@@ -245,7 +226,7 @@
                 },
                 buttonsStyling: !1
                 });
-                fetchComplaint();
+                fetchSurvey();
             },
             error: function (xhr) {
                 const errors = xhr.responseJSON.errors;
@@ -255,7 +236,7 @@
             }
         });
     });
-    function deleteComplaint(id) {
+    function deleteSurvey(id) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -268,17 +249,17 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `/complanits/${id}`,
+                    url: `/admin/survey/${id}`,
                     method: 'POST',
                     data: {
                         _token: "{{ csrf_token() }}",
                         _method: 'DELETE'
                     },
                     success: function (res) {
-                        fetchComplaint(); // Refresh the table
+                        fetchSurvey(); // Refresh the table
                         Swal.fire({
                             title: 'Deleted!',
-                            text: 'The complaint has been deleted.',
+                            text: 'The Survey has been deleted.',
                             icon: 'success',
                             timer: 1500,
                             showConfirmButton: false
@@ -298,7 +279,7 @@
 
 
     $(document).ready(function () {
-        fetchComplaint();
+        fetchSurvey();
     });
 </script>
 @endpush
