@@ -1,12 +1,17 @@
 <!-- Navbar -->
+<<<<<<< HEAD
 <nav class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
   id="layout-navbar">
+=======
+  <nav class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
   <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
     <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
       <i class="icon-base ti tabler-menu-2 icon-md"></i>
     </a>
   </div>
 
+<<<<<<< HEAD
   <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
     <h5 class="card-title mb-0 justify-content-center">Character Development Portal</h5>
     <ul class="navbar-nav flex-row align-items-center ms-md-auto">
@@ -48,16 +53,67 @@
       {{-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
         <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
           href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+=======
+<div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+  
+    <!-- Search -->
+    {{-- <div class="navbar-nav align-items-center">
+      <div class="nav-item navbar-search-wrapper px-md-0 px-2 mb-0">
+        <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
+          <span class="d-inline-block text-body-secondary fw-normal" id="autocomplete"></span>
+        </a>
+      </div>
+    </div> --}}
+
+    <!-- /Search -->
+  <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+      
+      <!--/ Language -->
+
+      
+        <!-- Style Switcher -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill" id="nav-theme" href="javascript:void(0);" data-bs-toggle="dropdown">
+            <i class="icon-base ti tabler-sun icon-22px theme-icon-active text-heading"></i>
+            <span class="d-none ms-2" id="nav-theme-text">Toggle theme</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-theme-text">
+            <li>
+              <button type="button" class="dropdown-item align-items-center active" data-bs-theme-value="light" aria-pressed="false">
+                <span><i class="icon-base ti tabler-sun icon-22px me-3" data-icon="sun"></i>Light</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item align-items-center" data-bs-theme-value="dark" aria-pressed="true">
+                <span><i class="icon-base ti tabler-moon-stars icon-22px me-3" data-icon="moon-stars"></i>Dark</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item align-items-center" data-bs-theme-value="system" aria-pressed="false">
+                <span><i class="icon-base ti tabler-device-desktop-analytics icon-22px me-3" data-icon="device-desktop-analytics"></i>System</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+        <!-- / Style Switcher-->
+      <!-- Quick links  -->
+      {{-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           <i class="icon-base ti tabler-layout-grid-add icon-22px text-heading"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-end p-0">
           <div class="dropdown-menu-header border-bottom">
             <div class="dropdown-header d-flex align-items-center py-3">
               <h6 class="mb-0 me-auto">Shortcuts</h6>
+<<<<<<< HEAD
               <a href="javascript:void(0)"
                 class="dropdown-shortcuts-add py-2 btn btn-text-secondary rounded-pill btn-icon"
                 data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i
                   class="icon-base ti tabler-plus icon-20px text-heading"></i></a>
+=======
+              <a href="javascript:void(0)" class="dropdown-shortcuts-add py-2 btn btn-text-secondary rounded-pill btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i class="icon-base ti tabler-plus icon-20px text-heading"></i></a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </div>
           </div>
           <div class="dropdown-shortcuts-list scrollable-container">
@@ -93,7 +149,11 @@
                 <small>Account Settings</small>
               </div>
             </div>
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </div>
         </div>
       </li> --}}
@@ -101,8 +161,12 @@
 
       <!-- Notification -->
       {{-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
+<<<<<<< HEAD
         <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
           href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+=======
+        <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           <span class="position-relative">
             <i class="icon-base ti tabler-bell icon-22px text-heading"></i>
             <span class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
@@ -114,9 +178,13 @@
               <h6 class="mb-0 me-auto">Notification</h6>
               <div class="d-flex align-items-center h6 mb-0">
                 <span class="badge bg-label-primary me-2">8 New</span>
+<<<<<<< HEAD
                 <a href="javascript:void(0)" class="dropdown-notifications-all p-2 btn btn-icon"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i
                     class="icon-base ti tabler-mail-opened text-heading"></i></a>
+=======
+                <a href="javascript:void(0)" class="dropdown-notifications-all p-2 btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i class="icon-base ti tabler-mail-opened text-heading"></i></a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
               </div>
             </div>
           </li>
@@ -135,10 +203,15 @@
                     <small class="text-body-secondary">1h ago</small>
                   </div>
                   <div class="flex-shrink-0 dropdown-notifications-actions">
+<<<<<<< HEAD
                     <a href="javascript:void(0)" class="dropdown-notifications-read"><span
                         class="badge badge-dot"></span></a>
                     <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
                         class="icon-base ti tabler-x"></span></a>
+=======
+                    <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                    <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                   </div>
                 </div>
               </li>
@@ -146,8 +219,12 @@
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar">
+<<<<<<< HEAD
                       <span class="avatar-initial rounded-circle bg-label-warning"><i
                           class="icon-base ti tabler-alert-triangle"></i></span>
+=======
+                      <span class="avatar-initial rounded-circle bg-label-warning"><i class="icon-base ti tabler-alert-triangle"></i></span>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                     </div>
                   </div>
                   <div class="flex-grow-1">
@@ -156,10 +233,15 @@
                     <small class="text-body-secondary">5 days ago</small>
                   </div>
                   <div class="flex-shrink-0 dropdown-notifications-actions">
+<<<<<<< HEAD
                     <a href="javascript:void(0)" class="dropdown-notifications-read"><span
                         class="badge badge-dot"></span></a>
                     <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
                         class="icon-base ti tabler-x"></span></a>
+=======
+                    <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                    <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="icon-base ti tabler-x"></span></a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
                   </div>
                 </div>
               </li>
@@ -203,6 +285,7 @@
             <div class="dropdown-divider my-1 mx-n2"></div>
           </li>
           <li>
+<<<<<<< HEAD
             <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i
                 class="icon-base ti tabler-user me-3 icon-md"></i><span class="align-middle">My Profile</span> </a>
           </li>
@@ -218,25 +301,54 @@
           {{-- <li>
             <a class="dropdown-item" href=""> <i class="icon-base ti tabler-question-mark me-3 icon-md"></i><span
                 class="align-middle">FAQ</span> </a>
+=======
+            <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon-base ti tabler-user me-3 icon-md"></i><span class="align-middle">My Profile</span> </a>
+          </li>
+          {{-- <li>
+            <a class="dropdown-item" href=""> <i class="icon-base ti tabler-settings me-3 icon-md"></i><span class="align-middle">Settings</span> </a>
+          </li> --}}
+          
+          <li>
+            <div class="dropdown-divider my-1 mx-n2"></div>
+          </li>
+          
+          {{-- <li>
+            <a class="dropdown-item" href=""> <i class="icon-base ti tabler-question-mark me-3 icon-md"></i><span class="align-middle">FAQ</span> </a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </li> --}}
           <li>
             <div class="d-grid px-2 pt-2 pb-1">
               <form method="POST" action="{{ route('logout') }}">
+<<<<<<< HEAD
                 @csrf
                 <a class="btn btn-sm btn-danger d-flex text-white" :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                   <small class="align-middle">Logout</small>
                   <i class="icon-base ti tabler-logout ms-2 icon-14px"></i>
                 </a>
+=======
+                            @csrf
+                <a class="btn btn-sm btn-danger d-flex text-white" :href="route('logout')" onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                <small class="align-middle">Logout</small>
+                <i class="icon-base ti tabler-logout ms-2 icon-14px"></i>
+              </a>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
               </form>
             </div>
           </li>
         </ul>
       </li>
       <!--/ User -->
+<<<<<<< HEAD
 
     </ul>
   </div>
+=======
+    
+  </ul>
+</div>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
 </nav>
 
 <!-- / Navbar -->

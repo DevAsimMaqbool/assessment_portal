@@ -253,7 +253,11 @@
     const chartLabels = @json($labels);
     const dataset1 = @json($dataset1);
     const dataset2 = @json($dataset2);
+<<<<<<< HEAD
   </script>
+=======
+</script>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
   <script src="{{ asset('admin/assets/vendor/libs/chartjs/chartjs.js') }}"></script>
   <script src="{{ asset('admin/assets/js/charts-chartjs-legend.js') }}"></script>
   <script src="{{ asset('admin/assets/js/charts-chartjs.js') }}"></script>

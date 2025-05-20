@@ -17,10 +17,16 @@
       <div class="d-flex align-items-end row">
         <div class="col-7">
         <div class="card-body text-nowrap">
+<<<<<<< HEAD
           <h5 class="card-title mb-0">Welcome {{ Auth::user()->name }}</h5>
           <p class="mb-2">Director</p>
           <p class="mb-2">{{ Auth::user()->department }}</p>
           <!--<h4 class="text-primary mb-1">81.00%</h4>-->
+=======
+          <h5 class="card-title mb-0">Welcom {{ Auth::user()->name }}</h5>
+          <!-- <p class="mb-2">Best seller of the month</p> -->
+          <h4 class="text-primary mb-1">81.00%</h4>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           <a href="javascript:;" class="btn btn-primary">View Report</a>
         </div>
         </div>
@@ -39,7 +45,11 @@
     <div class="col-xl-8 col-md-12">
       <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
+<<<<<<< HEAD
         <h5 class="card-title mb-0">Progress Stats</h5>
+=======
+        <h5 class="card-title mb-0">Statistics</h5>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         <small class="text-body-secondary">Updated 1 month ago</small>
       </div>
       <div class="card-body d-flex align-items-end">
@@ -48,41 +58,72 @@
           <div class="col-md-3 col-6">
           <div class="d-flex align-items-center">
             <div class="badge rounded bg-label-primary me-4 p-2"><i
+<<<<<<< HEAD
               class="icon-base ti tabler-chart-infographic icon-lg"></i></div>
             <div class="card-info">
             <h5 class="mb-0">{{ $averageOfAverages }}%</h5>
             <small>Assessment Score (Latest)</small>
+=======
+              class="icon-base ti tabler-chart-pie-2 icon-lg"></i></div>
+            <div class="card-info">
+            <h5 class="mb-0">3</h5>
+            <small>Self Feedback</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </div>
           </div>
           </div>
           <div class="col-md-3 col-6">
           <div class="d-flex align-items-center">
+<<<<<<< HEAD
             <div class="badge rounded bg-label-primary me-4 p-2"><i
               class="icon-base ti tabler-arrows-transfer-up-down icon-lg"></i></div>
             <div class="card-info">
             <h5 class="mb-0">2/15</h5>
             <small>Vertical Stakeholder Submission Status</small>
+=======
+            <div class="badge rounded bg-label-info me-4 p-2"><i class="icon-base ti tabler-users icon-lg"></i>
+            </div>
+            <div class="card-info">
+            <h5 class="mb-0">12</h5>
+            <small>Stakeholder Feedback</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </div>
           </div>
           </div>
           <div class="col-md-3 col-6">
           <div class="d-flex align-items-center">
+<<<<<<< HEAD
             <div class="badge rounded bg-label-primary me-4 p-2"><i
               class="icon-base ti tabler-switch-horizontal icon-lg"></i></div>
             <div class="card-info">
             <h5 class="mb-0">3/5</h5>
             <small>Horizontal Stakeholder Submission Status</small>
+=======
+            <div class="badge rounded bg-label-danger me-4 p-2"><i
+              class="icon-base ti tabler-shopping-cart icon-lg"></i></div>
+            <div class="card-info">
+            <h5 class="mb-0">15</h5>
+            <small>Team Members</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </div>
           </div>
           </div>
           <div class="col-md-3 col-6">
           <div class="d-flex align-items-center">
+<<<<<<< HEAD
             <div class="badge rounded bg-label-primary me-4 p-2"><i
               class="icon-base ti tabler-checkbox icon-lg"></i>
             </div>
             <div class="card-info">
             <h5 class="mb-0">Done</h5>
             <small>Self Assessment Status</small>
+=======
+            <div class="badge rounded bg-label-success me-4 p-2"><i
+              class="icon-base ti tabler-currency-dollar icon-lg"></i></div>
+            <div class="card-info">
+            <h5 class="mb-0">3</h5>
+            <small>Other</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </div>
           </div>
           </div>
@@ -161,6 +202,7 @@
     <!-- Topic and Instructors -->
     <br>
     <div class="row mb-6 g-6">
+<<<<<<< HEAD
     <div class="col-12 col-xl-7">
       <!-- Bar Charts -->
 
@@ -232,6 +274,102 @@
         <div class="d-flex justify-content-between align-items-center">
         <p class="mb-0 text-uppercase">Champions</p>
         <p class="mb-0 text-uppercase">Virtue</p>
+=======
+    <div class="col-12 col-xl-8">
+      <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">My Virtues</h5>
+        <div class="dropdown">
+        <button class="btn p-0" type="button" id="topic" data-bs-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="icon-base ti tabler-dots-vertical icon-22px text-body-secondary"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="topic">
+          <a class="dropdown-item" href="javascript:void(0);">Highest Views</a>
+          <a class="dropdown-item" href="javascript:void(0);">See All</a>
+        </div>
+        </div>
+      </div>
+      <div class="card-body row g-3">
+        <div class="col-md-8">
+        <div id="horizontalBarChart"></div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-around align-items-center">
+        <div>
+          <div class="d-flex align-items-baseline">
+          <span class="text-primary me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Responsibility and Accountability</p>
+            <h5>35%</h5>
+          </div>
+          </div>
+          <div class="d-flex align-items-baseline my-12">
+          <span class="text-success me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Honesty and Integrity</p>
+            <h5>14%</h5>
+          </div>
+          </div>
+          <div class="d-flex align-items-baseline">
+          <span class="text-danger me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Empathy and Compassion</p>
+            <h5>10%</h5>
+          </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="d-flex align-items-baseline">
+          <span class="text-info me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Humility and Service</p>
+            <h5>20%</h5>
+          </div>
+          </div>
+          <div class="d-flex align-items-baseline my-12">
+          <span class="text-secondary me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Patience and Gratitude</p>
+            <h5>12%</h5>
+          </div>
+          </div>
+          <div class="d-flex align-items-baseline">
+          <span class="text-warning me-2"><i class="icon-base ti tabler-circle-filled icon-12px"></i></span>
+          <div>
+            <p class="mb-0">Courage and Drive</p>
+            <h5>9%</h5>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-4 col-md-6">
+      <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="card-title mb-0">
+        <h5 class="m-0 me-2">Popular Instructors</h5>
+        </div>
+        <div class="dropdown">
+        <button class="btn text-body-secondary p-0" type="button" id="popularInstructors" data-bs-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="icon-base ti tabler-dots-vertical icon-22px"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="popularInstructors">
+          <a class="dropdown-item" href="javascript:void(0);">Select All</a>
+          <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+          <a class="dropdown-item" href="javascript:void(0);">Share</a>
+        </div>
+        </div>
+      </div>
+      <div class="px-5 py-4 border border-start-0 border-end-0">
+        <div class="d-flex justify-content-between align-items-center">
+        <p class="mb-0 text-uppercase">Virtue</p>
+        <p class="mb-0 text-uppercase">budies</p>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         </div>
       </div>
       <div class="card-body">
@@ -243,12 +381,20 @@
           <div>
           <div>
             <h6 class="mb-0 text-truncate">Asim</h6>
+<<<<<<< HEAD
             <small class="text-truncate text-body">Software Engineer</small>
+=======
+            <small class="text-truncate text-body">Business</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </div>
           </div>
         </div>
         <div class="text-end">
+<<<<<<< HEAD
           <h6 class="mb-0">Responsibility and Accountability</h6>
+=======
+          <h6 class="mb-0">33</h6>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-6">
@@ -259,12 +405,20 @@
           <div>
           <div>
             <h6 class="mb-0 text-truncate">Ahmad</h6>
+<<<<<<< HEAD
             <small class="text-truncate text-body">Software Engineer</small>
+=======
+            <small class="text-truncate text-body">Digital Marketing</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </div>
           </div>
         </div>
         <div class="text-end">
+<<<<<<< HEAD
           <h6 class="mb-0">Honesty and Integrity</h6>
+=======
+          <h6 class="mb-0">52</h6>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-6">
@@ -275,15 +429,26 @@
           <div>
           <div>
             <h6 class="mb-0 text-truncate">Abdul Wahab</h6>
+<<<<<<< HEAD
             <small class="text-truncate text-body">Designer</small>
+=======
+            <small class="text-truncate text-body">UI/UX Design</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </div>
           </div>
         </div>
         <div class="text-end">
+<<<<<<< HEAD
           <h6 class="mb-0">Empathy and Compassion</h6>
         </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mb-6">
+=======
+          <h6 class="mb-0">12</h6>
+        </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
         <div class="d-flex align-items-center">
           <div class="avatar avatar me-4">
           <img src="{{ asset('admin/assets/img/avatars/4.png')}}" alt="Avatar" class="rounded-circle" />
@@ -291,11 +456,16 @@
           <div>
           <div>
             <h6 class="mb-0 text-truncate">Dania Khan</h6>
+<<<<<<< HEAD
             <small class="text-truncate text-body">React Js Developer</small>
+=======
+            <small class="text-truncate text-body">React Js</small>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </div>
           </div>
         </div>
         <div class="text-end">
+<<<<<<< HEAD
           <h6 class="mb-0">Humility and Service</h6>
         </div>
         </div>
@@ -442,6 +612,11 @@
         <!--  <h6 class="mb-0">75%</h6>-->
         <!--</div>-->
         <!--</div>-->
+=======
+          <h6 class="mb-0">8</h6>
+        </div>
+        </div>
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
       </div>
       </div>
     </div>
@@ -452,11 +627,14 @@
   <!-- / Content -->
 @endsection
 @push('script')
+<<<<<<< HEAD
   <script>
     const chartLabels = @json($labels);
     const dataset1 = @json($dataset1);
     const dataset2 = @json($dataset2);
   </script>
+=======
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
   <script src="{{ asset('admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
   <script src="{{ asset('admin/assets/js/app-user-view-account.js') }}"></script>
   <!-- Vendors JS -->
@@ -465,9 +643,12 @@
   <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
   <!-- Page JS -->
   <script src="{{ asset('admin/assets/js/app-academy-dashboard.js') }}"></script>
+<<<<<<< HEAD
 
   <script src="{{ asset('admin/assets/vendor/libs/chartjs/chartjs.js') }}"></script>
   <script src="{{ asset('admin/assets/js/charts-chartjs-legend.js') }}"></script>
   <script src="{{ asset('admin/assets/js/charts-chartjs.js') }}"></script>
 
+=======
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
 @endpush

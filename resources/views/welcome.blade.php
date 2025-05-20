@@ -52,7 +52,11 @@
           </button>
           <!-- Mobile menu toggle: End-->
           <a href="/" class="app-brand-link">
+<<<<<<< HEAD
             <img style="width: 140px;" src="{{ asset('admin/assets/img/avatars/superior.svg') }}">
+=======
+            <img style="width: 70px;" src="{{ asset('admin/assets/img/avatars/tsg1.png') }}">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
           </a>
         </div>
         <!-- Menu logo wrapper: End -->
@@ -219,7 +223,11 @@
         <div class="row gx-0 gy-6 g-lg-10">
           <div class="col-lg-5">
             <a href="landing-page.html" class="app-brand-link mb-6">
+<<<<<<< HEAD
               <img style="width: 140px;" src="{{ asset('admin/assets/img/avatars/superior.svg') }}">
+=======
+              <img style="width: 70px;" src="{{ asset('admin/assets/img/avatars/tsg1.png') }}">
+>>>>>>> 855d8572a04eb69d9c41e722888f473b513001f8
             </a>
             <p class="footer-text footer-logo-description mb-6">To make Pakistan economically Superior by providing
               services in education, healthcare media, technology and scaling up enterprises both nationally and
