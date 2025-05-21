@@ -31,7 +31,6 @@ class AdminUserController extends Controller
                     'users' => $users,
                     'managerial_users' => $managerialUsers,
                 ]);
-            return response()->json($users);
         }
          return view('admin.user');
     }
@@ -142,4 +141,5 @@ class AdminUserController extends Controller
         $user->delete(); // soft delete
         return response()->json(['status' => 'success', 'message' => 'User deleted successfully']);
     }
+
 }
