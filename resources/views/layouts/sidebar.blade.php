@@ -69,9 +69,17 @@
     </li>
      <li class="menu-item">
       <a href="{{ route('complanits.index') }}" class="menu-link">
-        <i class="menu-icon icon-base ti tabler-message-heart"></i>
-        <div data-i18n="View Reports">Complaints</div>
+        <i class="menu-icon icon-base ti tabler-message-circle-question"></i>
+        <div data-i18n="Complaints">Complaints</div>
       </a>
+    </li>
+     <li class="menu-item">
+      @if(auth()->user()->hasRole('admin'))
+        <a href="{{ route('admin.survey.index') }}"  class="menu-link">
+        <i class="menu-icon icon-base ti tabler-contract"></i>
+          <div data-i18n="Survey">Survey</div>
+        </a>
+      @endif
     </li>
     <!-- <li class="menu-item active">
       <a href="javascript:void(0);" class="menu-link menu-toggle">

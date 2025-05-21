@@ -26,7 +26,11 @@ class AdminUserController extends Controller
                     'roles' => $user->getRoleNames(), // Spatie method to get role names
                 ];
             });
-
+              $managerialUsers = User::where('level', 'Managerial')->get();
+                return response()->json([
+                    'users' => $users,
+                    'managerial_users' => $managerialUsers,
+                ]);
             return response()->json($users);
         }
          return view('admin.user');

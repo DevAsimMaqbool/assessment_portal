@@ -169,10 +169,6 @@
                      <div class="mb-6">
                         <label class="form-label" for="user-manager">Select Manager</label>
                         <select id="user-manager" class="form-select" name="manager_id" required>
-                        <option value="1">Asim</option>
-                        <option value="5">Awais</option>
-                        <option value="6">Amjad</option>
-                        <option value="4">Zahid</option>
                         </select>
                         <div class="invalid-feedback" id="manager_idError"></div>
                     </div>
@@ -218,6 +214,12 @@ function fetchUsers() {
         method: "GET",
         dataType: "json",
         success: function (data) {
+            const managerial_users = data.managerial_users;
+            let manageruserOptions = '<option value="">Select Manager</option>';
+                managerial_users.forEach(manageruser => {
+                    manageruserOptions += `<option value="${manageruser.id}">${manageruser.name}</option>`;
+                });
+                $('#user-manager').html(manageruserOptions);
             const statusMap = {
                 pending: { title: "pending", class: "bg-label-warning" },
                 active: { title: "active", class: "bg-label-success" },
@@ -225,7 +227,7 @@ function fetchUsers() {
             };
 
             // Prepare rows
-            const rowData = data.map((user, index) => {
+            const rowData = data.users.map((user, index) => {
                 const createdAt = new Date(user.created_at);
                 const formattedDate = createdAt.toISOString().split('T')[0];
 
