@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_scores');
+        Schema::dropIfExists('user_category_scores');
     }
 };
