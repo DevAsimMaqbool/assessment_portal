@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/report.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/chartjs/chartjs.css') }}" />
 @endpush
 @section('content')
     <!-- Content -->
@@ -25,10 +26,10 @@
 
                     <div class="row">
                         <h2 class="section-info">Employee Information</h2>
-                        <div class="col-md-6 mb-3"><strong>Name:</strong> Your Name</div>
-                        <div class="col-md-6 mb-3"><strong>Employee ID:</strong> Your ID</div>
-                        <div class="col-md-6 mb-3"><strong>Designation:</strong> Your Designation</div>
-                        <div class="col-md-6 mb-3"><strong>Department:</strong> Your Department</div>
+                        <div class="col-md-6 mb-3"><strong>Name:</strong> {{ Auth::user()->name }}</div>
+                        <div class="col-md-6 mb-3"><strong>Employee ID:</strong> {{ Auth::user()->employee_code }}</div>
+                        <div class="col-md-6 mb-3"><strong>Designation:</strong> {{ Auth::user()->level }}</div>
+                        <div class="col-md-6 mb-3"><strong>Department:</strong> {{ Auth::user()->department }}</div>
                         <div class="col-md-6 mb-3"><strong>Unit/Campus:</strong> Your Unit/Campus</div>
                         <div class="col-md-6 mb-3"><strong>Date of Report:</strong> Report Date</div>
                     </div>
@@ -58,71 +59,63 @@
                         should not be shared without the individual's consent.
                     </p>
                 </section>
-
+                   
                 <!-- Overview -->
                 <section class="mb-5">
                     <h2 class="section-title">Overview</h2>
-                    <div class="page-break"></div>
+                    <div>
+                        <canvas class="chartjs" id="radarChart" data-height="355"></canvas>
+                    </div>
                     <!-- Inside Mirror -->
                     <div class="sub-section">
                         <h3 class="h4 text-dark">Inside Mirror (Self-Assessment)</h3>
                         <div class="table-responsive">
+                            <!--new table -->
                             <table class="table border-top">
-                                <thead>
-                                    <tr class="td-bg-blk">
-                                        <th class="text-color">Character Dimension</th>
-                                        <th class="text-color">Comments</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <thead>
+                                <tr class="td-bg-blk">
+                                    <th class="text-color">Character Dimension</th>
+                                    <th class="text-color">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($labels as $index => $label)
+                                 @if($index >= 5)
+                                    @break
+                                @endif
                                     <tr>
-                                        <td class="td-bg">Responsibility & Accountability</td>
-                                        <td>You rated yourself at 83%, which reflects a strong sense of ownership and
-                                            dependability. This score places this virtue as your 2nd highest strength in
-                                            self-
-                                            perception, indicating that you see yourself as someone who takes commitments
-                                            seriously and follows through with consistency.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Honesty & Integrity</td>
-                                        <td>Your self-assessment stands at 78%, suggesting a stable personal commitment to
-                                            truthfulness and ethical behavior. This rating places this trait 3rd in your
-                                            self-evaluation,
-                                            reflecting a belief that you generally act with fairness and moral clarity,
-                                            though there
-                                            may still be moments where deeper consistency can be pursued.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Empathy &
-                                            Compassion</td>
-                                        <td>You rated yourself at 89%, the lowest-ranked score in your self-assessment
-                                            despite
-                                            being numerically high. This suggests that you see empathy and compassion as
-                                            central
-                                            to your leadership approach, possibly indicating your own high expectations for
-                                            emotional intelligence and connection with others.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Humility & Service</td>
-                                        <td>With a self-assessment score of 93%, this is the highest-rated virtue in your
-                                            own view.
-                                            You see yourself as someone who prioritizes collective well-being, values
-                                            others’
-                                            contributions, and leads with humility and a spirit of service.
+                                        <td class="td-bg">{{ $label }}</td>
+                                        <td>
+                                            @php
+                                                $score = $dataset1[$index] ?? 'N/A';
+                                            @endphp
+
+                                            {{-- Dynamic comment with score --}}
+                                            @if($label === 'Responsibility and Accountability')
+                                                You rated yourself at <span class="data1">{{ $score }}%</span>, which reflects a strong sense of ownership and
+                                                dependability. This score places this virtue as your 2nd highest strength in self-perception, indicating that you see yourself as someone who takes commitments seriously and follows through with consistency.
+                                            @elseif($label === 'Honesty and Integrity')
+                                                Your self-assessment stands at <span class="data1">{{ $score }}%</span>, suggesting a stable personal commitment to
+                                                truthfulness and ethical behavior. This rating places this trait 3rd in your self-evaluation, reflecting a belief that you generally act with fairness and moral clarity, though there may still be moments where deeper consistency can be pursued.
+                                            @elseif($label === 'Empathy and Compassion')
+                                                You rated yourself at <span class="data1">{{ $score }}%</span>, the lowest-ranked score in your self-assessment
+                                                despite being numerically high. This suggests that you see empathy and compassion as central to your leadership approach, possibly indicating your own high expectations for emotional intelligence and connection with others.
+                                            @elseif($label === 'Humility and Service')
+                                                With a self-assessment score of <span class="data1">{{ $score }}%</span>, this is the highest-rated virtue in your
+                                                own view. You see yourself as someone who prioritizes collective well-being, values others’ contributions, and leads with humility and a spirit of service.
+                                            @elseif($label === 'Patience and Gratitude')
+                                                You rated yourself at <span class="data1">{{ $score }}%</span>, placing this as your 4th out of 5 traits. This score indicates
+                                                that while you may demonstrate patience and appreciation in some settings, you also recognize room for growth in consistently applying these qualities under stress or in fast-paced situations.
+                                            @else
+                                                Score: <span class="data1">{{ $score }}%</span>
+                                            @endif
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="td-bg">Patience & Gratitude</td>
-                                        <td>You rated yourself at 62%, placing this as your 4th out of 5 traits. This score
-                                            indicates
-                                            that while you may demonstrate patience and appreciation in some settings, you
-                                            also
-                                            recognize room for growth in consistently applying these qualities under stress
-                                            or in
-                                            fast-paced situations.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                            <!--/end new table-->
                         </div>
                     </div>
                     <div class="page-break"></div>
@@ -130,59 +123,55 @@
                     <div class="sub-section">
                         <h3 class="h4 text-dark">Social Mirror (Stakeholders' Perception)</h3>
                         <div class="table-responsive">
+
+                            <!--new table -->
                             <table class="table border-top">
-                                <thead>
-                                    <tr class="td-bg-blk">
-                                        <th class="text-color">Character Dimension</th>
-                                        <th class="text-color">Comments</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <thead>
+                                <tr class="td-bg-blk">
+                                    <th class="text-color">Character Dimension</th>
+                                    <th class="text-color">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($labels as $index => $label)
+                                 @if($index >= 5)
+                                    @break
+                                @endif
                                     <tr>
-                                        <td class="td-bg">Responsibility & Accountability</td>
-                                        <td>Stakeholders rated you at 87%, reflecting a strong perception of you as
-                                            dependable,
-                                            committed, and trustworthy. You are viewed as someone who takes ownership of
-                                            responsibilities and consistently follows through on commitments.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Honesty & Integrity</td>
-                                        <td>With a rating of 76%, stakeholders see you as honest and principled, suggesting
-                                            that you
-                                            demonstrate fairness, reliability, and ethical behavior in your interactions and
-                                            decisions.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Empathy &
-                                            Compassion</td>
-                                        <td>Stakeholders rated this trait at 63%, indicating that while some elements of
-                                            care and
-                                            emotional awareness are recognized, there may be opportunities to express
-                                            greater
-                                            empathy and attentiveness in daily interactions.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Humility & Service</td>
-                                        <td>Scoring an impressive 97%, this is the most highly rated dimension from your
-                                            colleagues.
-                                            You are perceived as a humble, selfless, and service-driven individual who
-                                            consistently
-                                            uplifts others and contributes to a collaborative and respectful environment.
+                                        <td class="td-bg">{{ $label }}</td>
+                                        <td>
+                                            @php
+                                                $score = $dataset2[$index] ?? 'N/A';
+                                            @endphp
+
+                                            {{-- Dynamic comment with score --}}
+                                            @if($label === 'Responsibility and Accountability')
+                                                Stakeholders rated you at <span class="data1">{{ $score }}%</span>, reflecting a strong perception of you as dependable, committed, and trustworthy. You are viewed as someone who takes ownership of responsibilities and consistently follows through on commitments.
+                                            @elseif($label === 'Honesty and Integrity')
+                                                With a rating of <span class="data1">{{ $score }}%</span>, stakeholders see you as honest and principled, suggesting that you demonstrate fairness, reliability, and ethical behavior in your interactions and decisions.
+                                            @elseif($label === 'Empathy and Compassion')
+                                                Stakeholders rated this trait at <span class="data1">{{ $score }}%</span>, indicating that while some elements of care and emotional awareness are recognized, there may be opportunities to express greater empathy and attentiveness in daily interactions.
+                                            @elseif($label === 'Humility and Service')
+                                                Scoring an impressive <span class="data1">{{ $score }}%</span>, this is the most highly rated dimension from your colleagues. You are perceived as a humble, selfless, and service-driven individual who consistently uplifts others and contributes to a collaborative and respectful environment.
+                                            @elseif($label === 'Patience and Gratitude')
+                                                With a stakeholder score of <span class="data1">{{ $score }}%</span>, you are seen as someone who generally exhibits calmness under pressure and appreciation for others. This reflects a positive contribution to team morale and emotional resilience in the workplace.
+                                            @else
+                                                Score: <span class="data1">{{ $score }}%</span>
+                                            @endif
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="td-bg">Patience & Gratitude</td>
-                                        <td>With a stakeholder score of 71%, you are seen as someone who generally exhibits
-                                            calmness under pressure and appreciation for others. This reflects a positive
-                                            contribution to team morale and emotional resilience in the workplace.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                            <!--/end new table-->
                         </div>
                     </div>
 
                     <div class="sub-section">
                         <div class="table-responsive">
+
+                            <!--table start-->
                             <table class="table border-top">
                                 <thead>
                                     <tr class="td-bg-blk">
@@ -195,44 +184,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  @foreach($labels as $index => $label)
+                                    @if($index >= 5)
+                                        @break
+                                    @endif
+                                    @php
+                                        $score1 = isset($dataset1[$index]) ? (int)$dataset1[$index] : null;
+                                        $score2 = isset($dataset2[$index]) ? (int)$dataset2[$index] : null;
+
+                                        $percentage = ($score1 !== null && $score2 !== null) ? (($score1 + $score2) / 2) : 'N/A';
+                                        $difference = ($score1 !== null && $score2 !== null) ? ($score1 - $score2) : 'N/A';
+                                    @endphp
                                     <tr>
-                                        <td class="td-bg">Responsibility & Accountability</td>
-                                        <td>83%</td>
-                                        <td>87%</td>
-                                        <td>85%</td>
-                                        <td>4%</td>
+                                        <td class="td-bg">{{ $label }}</td>
+                                        <td>{{ $score1 }}%</td>
+                                        <td>{{ $score2 }}%</td>
+                                        <td>{{ is_numeric($percentage) ? $percentage . '%' : $percentage }}</td>
+                                        <td>{{ is_numeric($difference) ? $difference . '%' : $difference }}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="td-bg">Honesty & Integrity</td>
-                                        <td>78%</td>
-                                        <td>76%</td>
-                                        <td>77%</td>
-                                        <td>-2%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Empathy &
-                                            Compassion</td>
-                                        <td>89%</td>
-                                        <td>63%</td>
-                                        <td>76%</td>
-                                        <td>-26%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Humility & Service</td>
-                                        <td>93%</td>
-                                        <td>97%</td>
-                                        <td>95%</td>
-                                        <td>4%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-bg">Patience & Gratitude</td>
-                                        <td>62%</td>
-                                        <td>71%</td>
-                                        <td>67%</td>
-                                        <td>9%</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+                            <!-- table end-->
                         </div>
                     </div>
                 </section>
@@ -618,4 +591,14 @@
         }
 
     </script>
+@endpush
+@push('script')
+  <script>
+    const chartLabels = @json($labels);
+    const dataset1 = @json($dataset1);
+    const dataset2 = @json($dataset2);
+  </script>
+  <script src="{{ asset('admin/assets/vendor/libs/chartjs/chartjs.js') }}"></script>
+  <script src="{{ asset('admin/assets/js/charts-chartjs-legend.js') }}"></script>
+  <script src="{{ asset('admin/assets/js/charts-chartjs.js') }}"></script>
 @endpush
