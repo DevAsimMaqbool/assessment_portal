@@ -26,8 +26,11 @@ class AdminUserController extends Controller
                     'roles' => $user->getRoleNames(), // Spatie method to get role names
                 ];
             });
-
-            return response()->json($users);
+              $managerialUsers = User::where('level', 'Managerial')->get();
+                return response()->json([
+                    'users' => $users,
+                    'managerial_users' => $managerialUsers,
+                ]);
         }
          return view('admin.user');
     }
@@ -138,4 +141,5 @@ class AdminUserController extends Controller
         $user->delete(); // soft delete
         return response()->json(['status' => 'success', 'message' => 'User deleted successfully']);
     }
+
 }

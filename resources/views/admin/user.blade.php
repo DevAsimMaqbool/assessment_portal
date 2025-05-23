@@ -9,92 +9,6 @@
 @section('content')
       <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row g-6 mb-6">
-                <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                        <span class="text-heading">Session</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2">21,459</h4>
-                            <p class="text-success mb-0">(+29%)</p>
-                        </div>
-                        <small class="mb-0">Total Users</small>
-                        </div>
-                        <div class="avatar">
-                        <span class="avatar-initial rounded bg-label-primary">
-                            <i class="icon-base ti tabler-users icon-26px"></i>
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                        <span class="text-heading">Paid Users</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2">4,567</h4>
-                            <p class="text-success mb-0">(+18%)</p>
-                        </div>
-                        <small class="mb-0">Last week analytics </small>
-                        </div>
-                        <div class="avatar">
-                        <span class="avatar-initial rounded bg-label-danger">
-                            <i class="icon-base ti tabler-user-plus icon-26px"></i>
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                        <span class="text-heading">Active Users</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2">19,860</h4>
-                            <p class="text-danger mb-0">(-14%)</p>
-                        </div>
-                        <small class="mb-0">Last week analytics</small>
-                        </div>
-                        <div class="avatar">
-                        <span class="avatar-initial rounded bg-label-success">
-                            <i class="icon-base ti tabler-user-check icon-26px"></i>
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                        <span class="text-heading">Pending Users</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2">237</h4>
-                            <p class="text-success mb-0">(+42%)</p>
-                        </div>
-                        <small class="mb-0">Last week analytics</small>
-                        </div>
-                        <div class="avatar">
-                        <span class="avatar-initial rounded bg-label-warning">
-                            <i class="icon-base ti tabler-user-search icon-26px"></i>
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
             <!-- Users List Table -->
             <div class="card">
                 <div class="card-header border-bottom">
@@ -169,10 +83,6 @@
                      <div class="mb-6">
                         <label class="form-label" for="user-manager">Select Manager</label>
                         <select id="user-manager" class="form-select" name="manager_id" required>
-                        <option value="1">Asim</option>
-                        <option value="5">Awais</option>
-                        <option value="6">Amjad</option>
-                        <option value="4">Zahid</option>
                         </select>
                         <div class="invalid-feedback" id="manager_idError"></div>
                     </div>
@@ -218,6 +128,12 @@ function fetchUsers() {
         method: "GET",
         dataType: "json",
         success: function (data) {
+            const managerial_users = data.managerial_users;
+            let manageruserOptions = '<option value="">Select Manager</option>';
+                managerial_users.forEach(manageruser => {
+                    manageruserOptions += `<option value="${manageruser.id}">${manageruser.name}</option>`;
+                });
+                $('#user-manager').html(manageruserOptions);
             const statusMap = {
                 pending: { title: "pending", class: "bg-label-warning" },
                 active: { title: "active", class: "bg-label-success" },
@@ -225,7 +141,7 @@ function fetchUsers() {
             };
 
             // Prepare rows
-            const rowData = data.map((user, index) => {
+            const rowData = data.users.map((user, index) => {
                 const createdAt = new Date(user.created_at);
                 const formattedDate = createdAt.toISOString().split('T')[0];
 
@@ -494,6 +410,7 @@ $('#addNewUserForm').submit(function (e) {
             }
         });
     }
+
 
 
 $(document).ready(function () {
