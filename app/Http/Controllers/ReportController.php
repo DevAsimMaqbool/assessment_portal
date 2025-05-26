@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
+use App\Models\UserCategoryScore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +17,17 @@ class ReportController extends Controller
 
     public function reports()
     {
-        $users = DB::table('users')->get();
-        return view('admin.report', compact('users'));
+        $maxAttempt = UserCategoryScore::where('user_id', Auth::id())->max('attempt');
+        $labels = Category::orderBy('id', 'asc')->pluck('name')->toArray();
+
+        $dataset1 = UserCategoryScore::where('user_id', Auth::id())
+            ->where('attempt', $maxAttempt)
+            ->orderBy('category_id', 'asc')
+            ->pluck('average_score')
+            ->toArray();
+        //$dataset1 = [91, 70, 85, 90, 90, 90];
+        $dataset2 = [80, 76, 75, 80, 80, 80];
+        return view('admin.report', compact('labels', 'dataset1', 'dataset2'));
     }
 
 
