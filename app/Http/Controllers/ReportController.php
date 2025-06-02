@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\UserCategoryScore;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,19 +16,41 @@ class ReportController extends Controller
 
 
 
-    public function reports()
+    public function reports($userId = null)
     {
-        $maxAttempt = UserCategoryScore::where('user_id', Auth::id())->max('attempt');
+        $user = User::where('id', $userId)->first();
+        $maxAttempt = UserCategoryScore::where('user_id', $userId)->max('attempt');
         $labels = Category::orderBy('id', 'asc')->pluck('name')->toArray();
 
-        $dataset1 = UserCategoryScore::where('user_id', Auth::id())
+        $dataset1 = UserCategoryScore::where('user_id', $userId)
             ->where('attempt', $maxAttempt)
             ->orderBy('category_id', 'asc')
             ->pluck('average_score')
             ->toArray();
         //$dataset1 = [91, 70, 85, 90, 90, 90];
-        $dataset2 = [80, 76, 75, 80, 80, 80];
-        return view('admin.report', compact('labels', 'dataset1', 'dataset2'));
+        $dataset2 = [100, 76, 75, 80, 80, 80];
+
+        $selfRanks = $this->rankArrayDescending($dataset1);
+        $peerRanks = $this->rankArrayDescending($dataset2);
+
+        return view('admin.report', compact('labels', 'dataset1', 'dataset2', 'user', 'selfRanks', 'peerRanks'));
+    }
+
+    private function rankArrayDescending($array)
+    {
+        $sorted = $array;
+        arsort($sorted);
+        $ranks = [];
+
+        $rank = 1;
+        foreach (array_unique(array_values($sorted)) as $score) {
+            foreach (array_keys($array, $score) as $key) {
+                $ranks[$key] = $rank;
+            }
+            $rank++;
+        }
+
+        return $ranks;
     }
 
 

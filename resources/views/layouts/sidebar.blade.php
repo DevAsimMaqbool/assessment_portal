@@ -17,20 +17,20 @@
 
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    
+
     <li class="menu-item active open">
       @if(auth()->user()->hasRole('admin'))
-      <a href="{{ route('admin.dashboard') }}"  class="menu-link">
+      <a href="{{ route('admin.dashboard') }}" class="menu-link">
       <i class="menu-icon icon-base ti tabler-smart-home"></i>
-        <div data-i18n="Dashboard">Dashboard</div>
-        </a>
-      @endif
+      <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    @endif
       @if(auth()->user()->hasRole('user'))
-      <a href="{{ route('dashboard') }}"  class="menu-link">
+      <a href="{{ route('dashboard') }}" class="menu-link">
       <i class="menu-icon icon-base ti tabler-smart-home"></i>
-        <div data-i18n="Dashboard">Dashboard</div>
-        </a>
-      @endif
+      <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    @endif
       <!-- <ul class="menu-sub">
         <li class="menu-item active">
           <a href="" class="menu-link">
@@ -60,27 +60,39 @@
       </a>
     </li>
     <li class="menu-item">
-    @if(auth()->user()->hasRole('admin'))
-      <a href="{{ route('admin.users.index') }}"  class="menu-link">
+      @if(auth()->user()->hasRole('admin'))
+      <a href="{{ route('admin.users.index') }}" class="menu-link">
       <i class="menu-icon icon-base ti tabler-users"></i>
-        <div data-i18n="Users">Users</div>
-        </a>
-      @endif
+      <div data-i18n="Users">Users</div>
+      </a>
+    @endif
     </li>
-     <li class="menu-item">
+    <li class="menu-item">
       <a href="{{ route('complanits.index') }}" class="menu-link">
         <i class="menu-icon icon-base ti tabler-message-circle-question"></i>
         <div data-i18n="Complaints">Complaints</div>
       </a>
     </li>
-     <li class="menu-item">
+    <li class="menu-item">
       @if(auth()->user()->hasRole('admin'))
-        <a href="{{ route('admin.survey.index') }}"  class="menu-link">
-        <i class="menu-icon icon-base ti tabler-contract"></i>
-          <div data-i18n="Survey">Survey</div>
-        </a>
-      @endif
+      <a href="{{ route('admin.survey.index') }}" class="menu-link">
+      <i class="menu-icon icon-base ti tabler-contract"></i>
+      <div data-i18n="Survey">Survey</div>
+      </a>
+    @endif
     </li>
+    <li class="menu-item {{ request()->is('chart') ? 'active' : '' }}">
+      <a href="/chart" class="menu-link">
+        <i class="menu-icon icon-base ti tabler-chart-pie"></i>
+        <div data-i18n="Reports">Reports</div>
+      </a>
+    </li>
+    <!-- <li class="menu-item">
+      <a href="/charts" class="menu-link">
+        <i class="menu-icon icon-base ti tabler-list-details"></i>
+        <div data-i18n="View Details">View Details</div>
+      </a>
+    </li> -->
     <!-- <li class="menu-item active">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon icon-base ti tabler-settings"></i>
@@ -100,7 +112,7 @@
       </ul>
     </li> -->
     <!-- Charts & Maps -->
-    <li class="menu-header small">
+    <!-- <li class="menu-header small">
       <span class="menu-header-text" data-i18n="Charts & Maps">Charts &amp; Maps</span>
     </li>
     <li class="menu-item active">
@@ -114,8 +126,13 @@
             <div data-i18n="Reports">Reports</div>
           </a>
         </li>
+        <li class="menu-item">
+          <a href="/chart" class="menu-link">
+            <div data-i18n="View Details">View Details</div>
+          </a>
+        </li>
       </ul>
-    </li>
+    </li> -->
 
   </ul>
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminUserController extends Controller
 {
@@ -19,20 +21,34 @@ class AdminUserController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'status'=>$user->status,
-                    'created_at'=>$user->created_at,
-                    'department'=>$user->department,
-                    'level'=>$user->level,
+                    'status' => $user->status,
+                    'created_at' => $user->created_at,
+                    'department' => $user->department,
+                    'level' => $user->level,
                     'roles' => $user->getRoleNames(), // Spatie method to get role names
                 ];
             });
-              $managerialUsers = User::where('level', 'Managerial')->get();
-                return response()->json([
-                    'users' => $users,
-                    'managerial_users' => $managerialUsers,
-                ]);
+            $managerialUsers = User::where('level', 'Managerial')->get();
+            return response()->json([
+                'users' => $users,
+                'managerial_users' => $managerialUsers,
+            ]);
         }
-         return view('admin.user');
+
+        $answerCounts = UserAnswer::select('user_id', DB::raw('COUNT(*) as total_answers'))
+            ->whereNull('for_user_id')
+            ->groupBy('user_id')
+            ->get();
+        $stakeholderCounts = UserAnswer::select('user_id', 'for_user_id', DB::raw('COUNT(*) as total_answers'))
+            ->whereNotNull('user_id')
+            ->whereNotNull('for_user_id')
+            ->groupBy('user_id', 'for_user_id')
+            ->get();
+        $totalUsers = User::count();
+        $answeredSelf = $answerCounts->count();
+        $answeredStakeholders = $stakeholderCounts->count();
+        $pendding = $totalUsers - ($answeredSelf + $answeredStakeholders);
+        return view('admin.user', compact('totalUsers', 'answeredSelf', 'answeredStakeholders', 'pendding'));
     }
 
     /**
@@ -48,33 +64,33 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users',
-        'employee_code' => 'required|string|max:50',
-        'department' => 'required|string|max:100',
-        'role' => 'required|string',
-        'level' => 'required',
-        'manager_id' => 'required',
-        'status' => 'required|in:active,inactive',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'employee_code' => 'required|string|max:50',
+            'department' => 'required|string|max:100',
+            'role' => 'required|string',
+            'level' => 'required',
+            'manager_id' => 'required',
+            'status' => 'required|in:active,inactive',
+        ]);
 
-    $user = new User();
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->employee_code = $request->employee_code;
-    $user->department = $request->department;
-    $user->level = $request->level;
-    $user->manager_id = $request->manager_id;
-    $user->status = $request->status;
-    $user->password = Hash::make('default123'); // Default password
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->employee_code = $request->employee_code;
+        $user->department = $request->department;
+        $user->level = $request->level;
+        $user->manager_id = $request->manager_id;
+        $user->status = $request->status;
+        $user->password = Hash::make('default123'); // Default password
 
-    $user->save();
+        $user->save();
 
-    // Assign role
-    $user->assignRole($request->role);
+        // Assign role
+        $user->assignRole($request->role);
 
-    return response()->json(['message' => 'User created successfully', 'user' => $user]);
+        return response()->json(['message' => 'User created successfully', 'user' => $user]);
     }
 
     /**
@@ -93,9 +109,9 @@ class AdminUserController extends Controller
         $user = User::findOrFail($id);
         $roles = $user->getRoleNames();
         return response()->json([
-        'user' => $user,
-        'roles' => $roles,
-    ]);
+            'user' => $user,
+            'roles' => $roles,
+        ]);
     }
 
     /**
