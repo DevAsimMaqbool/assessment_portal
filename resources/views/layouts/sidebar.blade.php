@@ -53,12 +53,14 @@
         <div data-i18n="Stakeholder Submission Status">Stakeholder Submission Status</div>
       </a>
     </li>
+    @if(auth()->user()->hasRole('user'))
     <li class="menu-item">
       <a href="{{ route('selfFeedback') }}" class="menu-link">
         <i class="menu-icon icon-base ti tabler-message-heart"></i>
         <div data-i18n="View Reports">View Reports</div>
       </a>
     </li>
+    @endif
     <li class="menu-item">
       @if(auth()->user()->hasRole('admin'))
       <a href="{{ route('admin.users.index') }}" class="menu-link">

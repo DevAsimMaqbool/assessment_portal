@@ -12,10 +12,24 @@ class UserCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($userId = null)
     {
-        $userScore = UserCategoryScore::where('user_id', Auth::user()->id)->orderBy('attempt', 'desc')->get();
-        return view('admin.self_feedback', compact('userScore'));
+        $userId = $userId ?? Auth::user()->id;
+        $latestAttempts = UserCategoryScore::where('user_id', $userId)
+        ->select('attempt')
+        ->distinct()
+        ->orderByDesc('attempt')
+        ->limit(2)
+        ->pluck('attempt');
+
+        // Step 2: Get all category scores for those 2 attempts
+        $userScores = UserCategoryScore::with('category')
+            ->where('user_id', $userId)
+            ->whereIn('attempt', $latestAttempts)
+            ->orderBy('attempt')
+            ->get()
+            ->groupBy('attempt');
+            return view('admin.self_feedback', compact('userScores'));
 
     }
 
