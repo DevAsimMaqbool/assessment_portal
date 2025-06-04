@@ -218,7 +218,7 @@
       <div class="container">
         <div class="row gx-0 gy-6 g-lg-10">
           <div class="col-lg-5">
-            <a href="landing-page.html" class="app-brand-link mb-6">
+            <a href="#" class="app-brand-link mb-6">
               <img style="width: 140px;" src="{{ asset('admin/assets/img/avatars/superior.svg') }}">
             </a>
             <p class="footer-text footer-logo-description mb-6">To make Pakistan economically Superior by providing

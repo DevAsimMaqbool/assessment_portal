@@ -41,14 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/chart', [PermissionController::class, 'chart']);
     Route::middleware(['role:user'])->group(function () {
         Route::get('/dashboard', [PermissionController::class, 'dashboard'])->name('dashboard');
+        Route::get('/self_feedback/{userId?}', [UserCategoryController::class, 'index'])->name('selfFeedback');
     });
     Route::middleware(['role:admin'])->prefix('admin')->as('admin.')->group(function () {
         Route::get('/dashboard', [PermissionController::class, 'dashboard'])->name('dashboard');
         Route::resource('/users', AdminUserController::class);
         Route::resource('/survey', SurveyController::class);
-    });
-    Route::middleware(['role:user'])->group(function () {
-         Route::get('/self_feedback/{userId?}', [UserCategoryController::class, 'index'])->name('selfFeedback');
     });
 
 });
