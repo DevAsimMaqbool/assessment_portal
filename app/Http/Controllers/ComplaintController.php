@@ -15,18 +15,27 @@ class ComplaintController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        try {
             $complaint = Complaint::with(['user', 'category'])->get();
             $users = User::select('id', 'name')->get();
             $categories = Category::select('id', 'name')->get();
+            if ($request->ajax()) {
 
-                return response()->json([
-                'complaints' => $complaint,
-                'users' => $users,
-                'categories' => $categories
-            ]);
-        }
-         return view('admin.complaint');
+                    return response()->json([
+                    'complaints' => $complaint,
+                    'users' => $users,
+                    'categories' => $categories
+                ]);
+            }
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return apiResponse('complaints data.', [ 'complaints' => $complaint, 'users' => $users,'categories' => $categories,],
+                true, 200,'');
+            }
+            return view('admin.complaint');
+        } catch (\Exception $e) {
+            return apiResponse('Oops! Something went wrong', [],
+                false, 500,'');
+        } 
     }
 
     /**
@@ -42,23 +51,27 @@ class ComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'complaint_user' => 'required|exists:users,id',
-            'complaint_category' => 'required|exists:categories,id',
-            'complaint_severity' => 'required|in:severe,mild,minor',
-            'complaint_isresokved' => 'nullable|boolean',
-        ]);
+            $request->validate([
+                'complaint_user' => 'required|exists:users,id',
+                'complaint_category' => 'required|exists:categories,id',
+                'complaint_severity' => 'required|in:severe,mild,minor',
+                'complaint_isresokved' => 'nullable|boolean',
+            ]);
 
-        // Create new complaint
-        $complaint = new Complaint();
-        $complaint->user_id = $request->complaint_user;
-        $complaint->category_id = $request->complaint_category;
-        $complaint->severity = $request->complaint_severity;
-        $complaint->is_resolved = $request->complaint_isresokved ? 1 : 0;
-        $complaint->created_by = Auth::id(); // assuming user is authenticated
-        $complaint->updated_by = Auth::id();
-        $complaint->save();
-        return response()->json(['message' => 'Complaint created successfully']);
+            // Create new complaint
+            $complaint = new Complaint();
+            $complaint->user_id = $request->complaint_user;
+            $complaint->category_id = $request->complaint_category;
+            $complaint->severity = $request->complaint_severity;
+            $complaint->is_resolved = $request->complaint_isresokved ? 1 : 0;
+            $complaint->created_by = Auth::id(); // assuming user is authenticated
+            $complaint->updated_by = Auth::id();
+            $complaint->save();
+            if ($request->expectsJson() && $request->is('api/*')) {
+                return apiResponse('Complaint created successfully.', [],
+                true, 201,'');
+            }
+            return response()->json(['message' => 'Complaint created successfully']);
     }
 
     /**
@@ -85,7 +98,7 @@ class ComplaintController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
+    {  
         $request->validate([
             'complaint_user' => 'required|exists:users,id',
             'complaint_category' => 'required|exists:categories,id',
@@ -93,22 +106,35 @@ class ComplaintController extends Controller
             'complaint_isresokved' => 'nullable|boolean',
         ]);
         $complaint = Complaint::findOrFail($id);
-         $complaint->user_id = $request->complaint_user;
+        $complaint->user_id = $request->complaint_user;
         $complaint->category_id = $request->complaint_category;
         $complaint->severity = $request->complaint_severity;
         $complaint->is_resolved = $request->complaint_isresokved ? 1 : 0;
         $complaint->updated_by = Auth::id();
         $complaint->save();
+        if ($request->expectsJson() && $request->is('api/*')) {
+                return apiResponse('Complaint update successfully', [],
+                true, 201,'');
+            }
         return response()->json(['message' => 'Complaint update successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,Request $request)
     {
-        $complaint = Complaint::findOrFail($id);
-        $complaint->delete(); // soft delete
-        return response()->json(['status' => 'success', 'message' => 'Complaint deleted successfully']);
+        try {
+            $complaint = Complaint::findOrFail($id);
+            $complaint->delete();
+            if ($request->expectsJson() && $request->is('api/*')) {
+                return apiResponse('Complaint deleted successfully', [],
+                true, 200,'');
+            }
+            return response()->json(['status' => 'success', 'message' => 'Complaint deleted successfully']);
+        } catch (\Exception $e) {
+            return apiResponse('Oops! Something went wrong', [],
+                false, 500,'');
+        }
     }
 }
