@@ -10,11 +10,33 @@
 @endpush
 @section('content')
     <!-- Content -->
+    @php
+    $attemptKeys = $userScores->keys()->all(); // e.g. [3, 4]
+
+        $attempt1 = collect();
+        $attempt2 = collect();
+
+        if (isset($attemptKeys[0])) {
+            $attempt1 = $userScores->get($attemptKeys[0], collect());
+        }
+
+        if (isset($attemptKeys[1])) {
+            $attempt2 = $userScores->get($attemptKeys[1], collect());
+        }
+
+    // Map Attempt 1 scores by category_id for fast lookup
+    $attempt1Scores = $attempt1->keyBy('category_id');
+    $attempt2Scores = $attempt2->keyBy('category_id');
+    @endphp
     <div class="container-xxl flex-grow-1 container-p-y">
             <!-- Permission Table -->
+            @if (!empty($attempt2) && $attempt2->isNotEmpty())
             <div class="card">
+            <div class="card-header">
+            <h5 class="mb-3 card-title">Attempt 2</h5>
+            </div>
                 <div class="card-datatable table-responsive">
-                    <table class="table border-top" id="userScoreTable">
+                    <table class="table border-top">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -24,163 +46,124 @@
                                 <th>Increase/Decrease</th>
                             </tr>
                         </thead>
-                        <tbody>
-                             <tr>
-                               <td>1</td>
-                               <td>Responsibility & Accountability</td>
-                               <td>65%</td>
-                               <td>Aspirant</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
+                        <tbody
+                            @foreach ($attempt2 as $index => $score)
+                              @php
+                                    $prevScore = $attempt1Scores[$score->category_id]->average_score ?? null;
+                                     $difference = $prevScore !== null ? abs($score->average_score - $prevScore) : 'N/A';
+                                @endphp
+                            <tr>
+                               <td>{{ $index + 1 }}</td>
+                               <td>{{ $score->category->name ?? 'N/A' }}</td>
+                               <td>{{ $score->average_score }}%</td>
+                               <td> @if ($score->average_score >= 90)
+                                    Role Model
+                                @elseif ($score->average_score >= 80 && $score->average_score < 90)
+                                    Influencer
+                                @elseif ($score->average_score >= 70 && $score->average_score < 80)
+                                    Influencer
+                                @elseif ($score->average_score >= 60 && $score->average_score < 70)
+                                    Aspirant        
+                                @else
+                                   Initiator
+                                @endif</td>
+                               <td>
+                               @if ($prevScore === null)
+                                    No Previous
+                                @elseif ($score->average_score > $prevScore)
+                                    <p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
                                     <i class="icon-base ti tabler-chevron-up"></i>
-                                    6
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>2</td>
-                               <td>Honesty & Integrity</td>
-                               <td>40%</td>
-                               <td>Initiator</td>
-                               <td><p class="text-danger fw-medium mb-0 d-flex align-items-center gap-1">
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                </p>
+                                @elseif ($score->average_score < $prevScore)
+                                    <p class="text-danger fw-medium mb-0 d-flex align-items-center gap-1">
                                     <i class="icon-base ti tabler-chevron-down"></i>
-                                    2
-                                </p></td>
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                </p>
+                                @else
+                                    <p class="text-dark fw-medium mb-0 d-flex align-items-center gap-1">
+                                    <i class="icon-base ti tabler-line-dashed"></i>
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                </p>
+                                @endif
+                            </td>
                             </tr>
-                              <tr>
-                               <td>3</td>
-                               <td>Empathy & Compassion</td>
-                               <td>83%</td>
-                               <td>Influencer</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    9
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>4</td>
-                               <td>Humility & Service</td>
-                               <td>90%</td>
-                               <td>Role Model</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    18
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>5</td>
-                               <td>Patience & Gratitude</td>
-                               <td>59%</td>
-                               <td>Initiator</td>
-                               <td><p class="text-danger fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-down"></i>
-                                    8
-                                </p></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+            <br>
+            @endif
+            <!--/ Permission Table -->
+            <!-- Permission Table -->
+            @if (!empty($attempt1) && $attempt1->isNotEmpty())
+            <div class="card">
+            <div class="card-header">
+            <h5 class="mb-3 card-title">Attempt 1</h5>
+            </div>
+                <div class="card-datatable table-responsive">
+                    <table class="table border-top">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Virtues</th>
+                                <th>Score</th>
+                                <th>Rank</th>
+                                <th>Increase/Decrease</th>
+                            </tr>
+                        </thead>
+                        <tbody
+                               @foreach ($attempt1 as $index => $score)
+                                @php
+                                    $nextScore = $attempt2Scores[$score->category_id]->average_score ?? null;
+                                    $difference = $nextScore !== null ? abs($score->average_score - $nextScore) : 'N/A';
+                                @endphp
+                              <tr>
+                               <td>{{ $index + 1 }}</td>
+                               <td>{{ $score->category->name ?? 'N/A' }}</td>
+                               <td>{{ $score->average_score }}%</td>
+                               <td> @if ($score->average_score >= 90)
+                                    Role Model
+                                @elseif ($score->average_score >= 80 && $score->average_score < 90)
+                                    Influencer
+                                @elseif ($score->average_score >= 70 && $score->average_score < 80)
+                                    Influencer
+                                @elseif ($score->average_score >= 60 && $score->average_score < 70)
+                                    Aspirant        
+                                @else
+                                   Initiator
+                                @endif</td>
+                               <td>
+                               @if ($nextScore === null)
+                                    No Next
+                                @elseif ($nextScore > $score->average_score)
+                                    <p class="text-danger fw-medium mb-0 d-flex align-items-center gap-1">
+                                    <i class="icon-base ti tabler-chevron-down"></i>
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                    </p>
+                                @elseif ($nextScore < $score->average_score)
+                                    <p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
+                                    <i class="icon-base ti tabler-chevron-up"></i>
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                </p>
+                                @else
+                                     <p class="text-dark fw-medium mb-0 d-flex align-items-center gap-1">
+                                    <i class="icon-base ti tabler-line-dashed"></i>
+                                    {{ is_numeric($difference) ? $difference : 'N/A' }}
+                                </p>
+                                @endif
+                             </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            @endif
             <!--/ Permission Table -->
             <br>
-            <!-- Permission Table -->
-            <div class="card">
-                <div class="card-datatable table-responsive">
-                    <table class="table border-top" id="userScoreTable1">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Virtues</th>
-                                <th>Score</th>
-                                <th>Rank</th>
-                                <th>Increase/Decrease</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                             <tr>
-                               <td>1</td>
-                               <td>Responsibility & Accountability</td>
-                               <td>59%</td>
-                               <td>Initiator</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    9
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>2</td>
-                               <td>Honesty & Integrity</td>
-                               <td>65%</td>
-                               <td>Aspirant</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    18
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>3</td>
-                               <td>Empathy & Compassion</td>
-                               <td>40%</td>
-                               <td>Initiator</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    6
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>4</td>
-                               <td>Humility & Service</td>
-                               <td>83%</td>
-                               <td>Influencer</td>
-                               <td><p class="text-danger fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-down"></i>
-                                    2
-                                </p></td>
-                            </tr>
-                              <tr>
-                               <td>5</td>
-                               <td>Patience & Gratitude</td>
-                               <td>90%</td>
-                               <td>Role Model</td>
-                               <td><p class="text-success fw-medium mb-0 d-flex align-items-center gap-1">
-                                    <i class="icon-base ti tabler-chevron-up"></i>
-                                    9
-                                </p></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--/ Permission Table -->
-            {{-- @foreach($userScores as $attempt => $scores)
-    <div class="card mb-4">
-        <div class="card-header fw-bold">
-            Attempt #{{ $attempt }}
-        </div>
-        <div class="card-datatable table-responsive">
-            <table class="table border-top attempt-table" id="attemptTable_{{ $attempt }}">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Category</th>
-                        <th>Attempt</th>
-                        <th>Score</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($scores as $index => $score)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ str_replace('and', '&', $score->category->name) }}</td>
-                            <td>{{ $score->attempt }}</td>
-                            <td>{{ $score->average_score }}%</td>
-                            <td>{{ $score->created_at->format('Y-m-d') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-@endforeach --}}
 
     </div>
     <!-- / Content -->
@@ -202,7 +185,6 @@
                 paging: true,
                 searching: true,
                 ordering: true,
-                order: [[2, 'desc']], // Default order by attempt desc
                 columnDefs: [
                     { targets: 0, searchable: false, orderable: false }, // disable ordering on index
                 ],
@@ -213,7 +195,6 @@
                             {
                                 pageLength: {
                                     menu: [10, 25, 50, 100],
-                                    text: "Attempt 3"
                                 }
                             },
                             {
@@ -236,7 +217,6 @@
                 paging: true,
                 searching: true,
                 ordering: true,
-                order: [[2, 'desc']], // Default order by attempt desc
                 columnDefs: [
                     { targets: 0, searchable: false, orderable: false }, // disable ordering on index
                 ],
@@ -247,7 +227,6 @@
                             {
                                 pageLength: {
                                     menu: [10, 25, 50, 100],
-                                    text: "Attempt 2"
                                 }
                             }
                         ]

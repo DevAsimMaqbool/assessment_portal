@@ -36,12 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/question', [QuestionController::class, 'show'])->name('question.show');
     Route::get('/stakeholder_question/{UserID?}', [QuestionController::class, 'stakeholder'])->name('question.stakeholder');
     Route::get('/user_report/{userId?}', [ReportController::class, 'reports'])->name('reports.report');
-    Route::get('/self_feedback', [UserCategoryController::class, 'index'])->name('selfFeedback');
     Route::get('/self-feedback/details', [UserCategoryController::class, 'showAttemptDetail'])->name('admin.self_feedback.details');
     Route::get('/dashboard', [PermissionController::class, 'dashboard'])->name('dashboard');
     Route::get('/chart', [PermissionController::class, 'chart']);
     Route::middleware(['role:user'])->group(function () {
         Route::get('/dashboard', [PermissionController::class, 'dashboard'])->name('dashboard');
+        Route::get('/self_feedback/{userId?}', [UserCategoryController::class, 'index'])->name('selfFeedback');
     });
     Route::middleware(['role:admin'])->prefix('admin')->as('admin.')->group(function () {
         Route::get('/dashboard', [PermissionController::class, 'dashboard'])->name('dashboard');

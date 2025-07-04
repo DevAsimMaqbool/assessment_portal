@@ -3,9 +3,16 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
 
   <div class="app-brand demo">
-    <a href="/dashboard" class="app-brand-link">
+    @if(auth()->user()->hasRole('admin'))
+    <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
       <img style="width: 175px;" src="{{ asset('admin/assets/img/avatars/superior.svg') }}">
     </a>
+     @endif
+     @if(auth()->user()->hasRole('user'))
+    <a href="{{ route('dashboard') }}" class="app-brand-link">
+      <img style="width: 175px;" src="{{ asset('admin/assets/img/avatars/superior.svg') }}">
+    </a>
+     @endif
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
       <i class="icon-base ti menu-toggle-icon d-none d-xl-block"></i>
@@ -24,13 +31,13 @@
       <i class="menu-icon icon-base ti tabler-smart-home"></i>
       <div data-i18n="Dashboard">Dashboard</div>
       </a>
-    @endif
+     @endif
       @if(auth()->user()->hasRole('user'))
       <a href="{{ route('dashboard') }}" class="menu-link">
       <i class="menu-icon icon-base ti tabler-smart-home"></i>
       <div data-i18n="Dashboard">Dashboard</div>
       </a>
-    @endif
+     @endif
       <!-- <ul class="menu-sub">
         <li class="menu-item active">
           <a href="" class="menu-link">
@@ -53,12 +60,14 @@
         <div data-i18n="Stakeholder Submission Status">Stakeholder Submission Status</div>
       </a>
     </li>
+    @if(auth()->user()->hasRole('user'))
     <li class="menu-item">
       <a href="{{ route('selfFeedback') }}" class="menu-link">
         <i class="menu-icon icon-base ti tabler-message-heart"></i>
         <div data-i18n="View Reports">View Reports</div>
       </a>
     </li>
+    @endif
     <li class="menu-item">
       @if(auth()->user()->hasRole('admin'))
       <a href="{{ route('admin.users.index') }}" class="menu-link">

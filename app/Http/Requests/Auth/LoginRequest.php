@@ -4,10 +4,12 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Validator;
 
 class LoginRequest extends FormRequest
 {
@@ -43,7 +45,14 @@ class LoginRequest extends FormRequest
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
+            
 
+            if ($this->wantsJson() || $this->is('api/*')) {
+                throw new HttpResponseException(response()->json([
+                    'status' => false,
+                    'message' => trans('auth.failed'),
+                ], 401));
+            }
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
@@ -81,5 +90,29 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+    }
+     // Return JSON if API request fails validation
+    protected function failedValidation(Validator $validator)
+    {
+        if ($this->wantsJson() || $this->is('api/*')) {
+            throw new HttpResponseException(response()->json([
+                'status' => false,
+                'message' => 'Validation errors',
+                'errors' => $validator->errors(),
+            ], 422));
+        }
+
+        parent::failedValidation($validator);
+    }
+     protected function failedAuthorization()
+    {
+        if ($this->wantsJson() || $this->is('api/*')) {
+            throw new HttpResponseException(response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ], 403));
+        }
+
+        parent::failedAuthorization();
     }
 }

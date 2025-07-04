@@ -13,11 +13,20 @@ class SurveyController extends Controller
      */
     public function index(Request $request)
     {
+        try {
+            $survey = Survey::all();
             if ($request->ajax()) {
-                $survey = Survey::all();
                 return response()->json($survey);
             }
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return apiResponse('Survey data.', [ 'survey' => $survey],
+                true, 200,'');
+            }
             return view('admin.survey');
+        }catch (\Exception $e) {
+            return apiResponse('Oops! Something went wrong', [],
+                false, 500,'');
+        }
     }
 
     /**
@@ -49,6 +58,10 @@ class SurveyController extends Controller
         $survey->created_by = Auth::id(); // assuming user is authenticated
         $survey->updated_by = Auth::id();
         $survey->save();
+        if ($request->expectsJson() && $request->is('api/*')) {
+                return apiResponse('Survey created successfully.', [],
+                true, 201,'');
+        }
         return response()->json(['message' => 'Survey created successfully']);
     }
 
@@ -93,10 +106,19 @@ class SurveyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,Request $request)
     {
-        $survey = survey::findOrFail($id);
-        $survey->delete(); // soft delete
-        return response()->json(['status' => 'success', 'message' => 'Survey deleted successfully']);
+        try {
+            $survey = survey::findOrFail($id);
+            $survey->delete();
+            if ($request->expectsJson() && $request->is('api/*')) {
+                return apiResponse('Survey deleted successfully', [],
+                true, 200,'');
+            }
+            return response()->json(['status' => 'success', 'message' => 'Survey deleted successfully']);
+        }catch (\Exception $e) {
+            return apiResponse('Oops! Something went wrong', [],
+                false, 500,'');
+        }
     }
 }

@@ -8,6 +8,7 @@ use App\Models\UserAnswer;
 use App\Models\CategoryStrength;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 if (!function_exists('getResponse')) {
     function getResponse($data, $token, $message, $status): array
@@ -19,6 +20,27 @@ if (!function_exists('getResponse')) {
             'status' => $status,
         ];
         return $responseResults;
+    }
+}
+if (!function_exists('apiResponse')) {
+    /**
+     * Return a standardized API response.
+     *
+     * @param string $apimessage
+     * @param mixed  $apidata
+     * @param bool   $apistatusFlag
+     * @param int    $apihttpStatus
+     * @param string|null $token
+     * @return JsonResponse
+     */
+    function apiResponse(string $apimessage, $apidata = [], bool $apistatusFlag = true, int $apihttpStatus = 200, string $token = null): JsonResponse
+    {
+        return response()->json([
+            'data'    => $apidata,
+            'status'  => $apistatusFlag,
+            'message' => $apimessage,
+            'token'   => $token,
+        ], $apihttpStatus);
     }
 }
 
